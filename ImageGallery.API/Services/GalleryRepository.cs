@@ -24,9 +24,10 @@ namespace ImageGallery.API.Services
             return await _context.Images.FirstOrDefaultAsync(i => i.Id == id);
         }
   
-        public async Task<IEnumerable<Image>> GetImagesAsync()
+        public async Task<IEnumerable<Image>> GetImagesAsync(string ownerId)
         {
             return await _context.Images
+                .Where(s => s.OwnerId == ownerId)
                 .OrderBy(i => i.Title).ToListAsync();
         }
 
