@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/ImageGallery.API/ImageGallery.db
+/ImageGallery.API/ImageGallery.db-shm
+/ImageGallery.API/ImageGallery.db-wal
+/Marvin.IDP/keys/is-signing-key-259792D8667D9FAF6E5403D28EBF30C8.json
+/Marvin.IDP/keys/is-signing-key-41353390D9C8746D5FE6E6DDC27F8432.json
