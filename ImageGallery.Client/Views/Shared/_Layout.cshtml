@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -29,7 +32,8 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Gallery" asp-action="AddImage">Add an Image</a>
                             </li>
                         }
-                        @if (User.Identity.IsAuthenticated)
+                        @if ((await AuthorizationService.AuthorizeAsync
+                            (User, "UserCanAddImage")).Succeeded)
                         {
                             <li>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Authentication"
