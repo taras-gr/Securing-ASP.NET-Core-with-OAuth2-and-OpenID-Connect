@@ -1,3 +1,4 @@
+using Duende.AspNetCore.Authentication.OAuth2Introspection;
 using ImageGallery.API.Authorization;
 using ImageGallery.API.DbContexts;
 using ImageGallery.API.Services;
@@ -31,17 +32,25 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.Authority = "https://localhost:5001";
-        options.Audience = "imagegalleryapi";
-        options.TokenValidationParameters = new()
-        {
-            NameClaimType = "given_name",
-            RoleClaimType = "role",
-            ValidTypes = ["at+jwt"]
-        };
-    });
+//.AddJwtBearer(options =>
+//{
+//    options.Authority = "https://localhost:5001";
+//    options.Audience = "imagegalleryapi";
+//    options.TokenValidationParameters = new()
+//    {
+//        NameClaimType = "given_name",
+//        RoleClaimType = "role",
+//        ValidTypes = ["at+jwt"]
+//    };
+//});
+.AddOAuth2Introspection(options =>
+{
+    options.Authority = "https://localhost:5001";
+    options.ClientId = "imagegalleryapi";
+    options.ClientSecret = "apisecret";
+    options.NameClaimType = "given_name";
+    options.RoleClaimType = "role";
+});
 
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("UserCanAddImage", AuthorizationPolicies.CanAddImage())
