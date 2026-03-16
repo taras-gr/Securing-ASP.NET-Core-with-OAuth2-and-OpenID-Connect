@@ -71,6 +71,37 @@ public static class Config
                         new Secret("secret".Sha256())
                     },
                     RequireConsent = true
+                },
+                new Client()
+                {
+                    ClientName = "Image Gallery BFF",
+                    ClientId = "imagegallerybff",
+                    AccessTokenType = AccessTokenType.Reference,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowOfflineAccess = true,
+                    UpdateAccessTokenClaimsOnRefresh = true,
+                    RedirectUris =
+                    {
+                        "https://localhost:7119/signin-oidc"
+                    },
+                    PostLogoutRedirectUris =
+                    {
+                        "https://localhost:7119/signout-callback-oidc"
+                    },
+                    AllowedScopes =
+                    [
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "roles",
+                        "imagegalleryapi.read",
+                        "imagegalleryapi.write",
+                        "country"
+                    ],
+                    ClientSecrets =
+                    {
+                        new Secret("anothersecret".Sha256())
+                    },
+                    RequireConsent = true
                 }
             ];
 }
