@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Marvin.IDP.DbContexts
 {
-    public class IdentityDbContext : DbContext
+    public class IdentityDbContext(
+      DbContextOptions<IdentityDbContext> options) : DbContext(options)
     {
         public DbSet<User> Users { get; set; }
 
@@ -11,11 +12,7 @@ namespace Marvin.IDP.DbContexts
 
         public DbSet<UserLogin> UserLogins { get; set; }
 
-        public IdentityDbContext(
-          DbContextOptions<IdentityDbContext> options)
-        : base(options)
-        {
-        }
+        public DbSet<UserSecret> UserSecrets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

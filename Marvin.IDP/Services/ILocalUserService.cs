@@ -30,5 +30,9 @@ namespace Marvin.IDP.Services
         Task<User> FindUserByExternalProviderAsync(string provider, string providerIdentityKey);
         
         User AutoProvisionUser(string provider, string providerIdentityKey, IEnumerable<Claim> claims);
+        
+        Task<bool> AddUserSecret(string subject, string name, string secret);
+
+        Task<UserSecret> GetUserSecretAsync(string subject, string name);
     }
 }

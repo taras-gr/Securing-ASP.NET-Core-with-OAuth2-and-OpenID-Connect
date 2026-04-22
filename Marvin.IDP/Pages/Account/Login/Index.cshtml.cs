@@ -99,6 +99,32 @@ public class Index : PageModel
             {
                 var user = await _localUserService
                     .GetUserByUserNameAsync(Input.Username);
+
+                // validate the second factor
+                // first, get the totp secret for the user
+                var userSecret = await _localUserService
+                    .GetUserSecretAsync(user.Subject, "totp");
+                if (userSecret == null)
+                {
+                    ModelState.AddModelError("usersecret",
+                        "No second factor secret has been registered - " +
+                        "please contact support.");
+                    await BuildModelAsync(Input.ReturnUrl);
+                    return Page();
+                }
+
+                // validate the TOTP token
+                var authenticator = new TwoStepsAuthenticator
+                    .TimeAuthenticator();
+                if (!authenticator.CheckCode(userSecret.Secret,
+                    Input.Totp, user))
+                {
+                    ModelState.AddModelError("totp",
+                        "Invalid second factor token.");
+                    await BuildModelAsync(Input.ReturnUrl);
+                    return Page();
+                }
+
                 await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Subject, user.UserName, clientId: context?.Client.ClientId));
                 Telemetry.Metrics.UserLogin(context?.Client.ClientId, IdentityServerConstants.LocalIdentityProvider);
 

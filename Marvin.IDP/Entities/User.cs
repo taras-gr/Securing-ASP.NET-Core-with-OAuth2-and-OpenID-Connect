@@ -34,6 +34,7 @@ namespace Marvin.IDP.Entities
         public ICollection<UserClaim> Claims { get; set; } = [];
 
         public ICollection<UserLogin> Logins { get; set; } = [];
-    }
 
+        public ICollection<UserSecret> Secrets { get; set; } = [];
+    }
 }
